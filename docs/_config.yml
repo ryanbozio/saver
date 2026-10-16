@@ -4,8 +4,8 @@ description: >-
   Placeholder Jekyll site for the Saver project. Replace this copy with
   real content whenever the project takes shape.
 author: Ryan Bozio
-baseurl: ""
-url: ""
+baseurl: "/saver"
+url: "https://ryanbozio.github.io"
 
 markdown: kramdown
 permalink: pretty

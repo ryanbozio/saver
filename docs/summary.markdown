@@ -11,7 +11,7 @@ permalink: /Summary/
 <div class="app-app">
   <div id="appCards" class="app-cards"></div>
 
-  <p class="app-muted">Choose a child to see their activity.</p>
+  <p class="app-muted">Choose your account to see your activity.</p>
 </div>
 
 <script src="{{ '/assets/js/common.js' | relative_url }}"></script>

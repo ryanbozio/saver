@@ -8,7 +8,7 @@ permalink: /Login/
 
 <div class="app-app app-login-page">
   <div class="app-hero">
-    <p class="app-kicker">BOZIO BUCKS</p>
+    <p class="app-kicker">SAVER APP</p>
     <h1>Welcome back.</h1>
     <p>Sign in with your GitHub access token to open your family app space.</p>
   </div>

@@ -43,7 +43,6 @@ async function loadChild() {
   document.getElementById("childHeading").innerHTML = `<p class="app-kicker">${escapeHtml(current.name.toUpperCase())}'S ACCOUNT</p>`;
   const balance = computeBalances(ledger)[current.id] || 0;
   document.getElementById("childBalance").textContent = `${balance} Bozio Bucks 🎟️`;
-  document.getElementById("childStoreLink").href = appUrl(`/Store/?id=${encodeURIComponent(current.id)}`);
   const prizes = pendingRedemptions(ledger, current.id);
   document.getElementById("childPrizes").innerHTML = prizes.length
     ? prizes.map((prize) => `<li><span>${escapeHtml(prize.description)}</span><button type="button" data-use-prize-id="${escapeHtml(prize.id)}">Use</button></li>`).join("")
@@ -67,18 +66,23 @@ function choreImage(chore) {
 
 async function logChore(chore) {
   const current = childState.children.find((child) => child.id === childId);
-  addPendingAction("log_chore", { childId: current.id, childName: current.name, description: chore.name, points: chore.points }, `Log chore: ${chore.name}`);
-  showChildStatus("Chore added to cart.", false);
+  await appendLedgerRow([crypto.randomUUID().slice(0, 8), new Date().toISOString(), current.id, "chore", chore.name, chore.points], `Log chore: ${chore.name}`);
+  await loadChild();
+  showChildStatus(`Logged ${chore.name}.`, false);
 }
 
-document.getElementById("childChores").addEventListener("click", (event) => {
+document.getElementById("childChores").addEventListener("click", async (event) => {
   const button = event.target.closest("button[data-chore-id]");
   if (!button) return;
   const chore = childState.chores.find((item) => item.id === button.dataset.choreId);
   button.disabled = true;
-  button.textContent = "In cart";
   showChildStatus(`Logging ${chore.name}...`, false);
-  logChore(chore);
+  try {
+    await logChore(chore);
+  } catch (error) {
+    button.disabled = false;
+    showChildStatus(error.message, true);
+  }
 });
 
 document.getElementById("childPrizes").addEventListener("click", async (event) => {
@@ -86,20 +90,37 @@ document.getElementById("childPrizes").addEventListener("click", async (event) =
   if (!button) return;
   button.disabled = true;
   const current = childState.children.find((child) => child.id === childId);
-  addPendingAction("use_redemption", { childId, childName: current.name, redemptionId: button.dataset.usePrizeId }, "Use redeemed prize");
-  button.textContent = "In cart";
-  showChildStatus("Prize use added to cart.", false);
+  showChildStatus("Using prize...", false);
+  try {
+    await appendLedgerRow([crypto.randomUUID().slice(0, 8), new Date().toISOString(), childId, "redemption_used", button.dataset.usePrizeId, 0], "Use redeemed prize");
+    await loadChild();
+    showChildStatus("Prize used.", false);
+  } catch (error) {
+    button.disabled = false;
+    showChildStatus(error.message, true);
+  }
 });
 
-document.getElementById("childAdjustmentForm").addEventListener("submit", (event) => {
+document.getElementById("childAdjustmentForm").addEventListener("submit", async (event) => {
   event.preventDefault();
+  const form = event.currentTarget;
   const current = childState.children.find((child) => child.id === childId);
   const points = parseInt(document.getElementById("childAdjustmentPoints").value, 10);
   const reason = document.getElementById("childAdjustmentReason").value.trim();
   if (!points || !reason) return;
-  addPendingAction("adjustment", { childId: current.id, childName: current.name, reason, points }, `Adjustment: ${reason} (${points > 0 ? "+" : ""}${points} Bozio Bucks)`);
-  document.getElementById("childAdjustmentForm").reset();
-  showChildStatus("Adjustment added to cart.", false);
+  const button = form.querySelector("button[type='submit']");
+  button.disabled = true;
+  showChildStatus("Saving adjustment...", false);
+  try {
+    await appendLedgerRow([crypto.randomUUID().slice(0, 8), new Date().toISOString(), current.id, "adjustment", reason, points], `Adjustment: ${reason} (${points > 0 ? "+" : ""}${points} Bozio Bucks)`);
+    form.reset();
+    await loadChild();
+    showChildStatus("Adjustment saved.", false);
+  } catch (error) {
+    showChildStatus(error.message, true);
+  } finally {
+    button.disabled = false;
+  }
 });
 
 loadChild().catch((error) => showChildStatus(error.message, true));

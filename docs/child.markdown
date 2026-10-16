@@ -38,7 +38,7 @@ permalink: /Child/
 
 <script src="{{ '/assets/js/common.js' | relative_url }}"></script>
 <script>
-  const GITHUB_REPOSITORY = "ryanbozio/bozioBucks";
+  const GITHUB_REPOSITORY = "ryanbozio/saver";
   const GITHUB_BRANCH = "main";
 </script>
 <script src="{{ '/assets/js/child.js' | relative_url }}"></script>

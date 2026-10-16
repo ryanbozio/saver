@@ -20,6 +20,6 @@ permalink: /Store/
 
 <script src="{{ '/assets/js/common.js' | relative_url }}"></script>
 <script>
-  const GITHUB_REPOSITORY = "ryanbozio/bozioBucks";
+  const GITHUB_REPOSITORY = "ryanbozio/saver";
 </script>
 <script src="{{ '/assets/js/store.js' | relative_url }}"></script>

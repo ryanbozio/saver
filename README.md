@@ -1,4 +1,4 @@
-# bozioBucks
+# saver
 
 ## App admin setup
 
@@ -8,9 +8,9 @@ a token you provide for the current browser session.
 
 1. Create a fine-grained personal access token at
 	https://github.com/settings/personal-access-tokens/new.
-2. Limit repository access to `ryanbozio/bozioBucks` and grant
+2. Limit repository access to `ryanbozio/saver` and grant
 	**Contents: Read and write** permission.
-3. Paste the token into the GitHub token field on `/bozioBucks/Admin/` and select
+3. Paste the token into the GitHub token field on `/saver/Admin/` and select
 	**Connect**. The token is stored only in that browser tab's session storage
 	and is removed on disconnect or when the tab closes.
 

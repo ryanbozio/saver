@@ -78,7 +78,7 @@ permalink: /Admin/
 
 <script src="{{ '/assets/js/common.js' | relative_url }}"></script>
 <script>
-  const GITHUB_REPOSITORY = "ryanbozio/bozioBucks";
+  const GITHUB_REPOSITORY = "ryanbozio/saver";
   const GITHUB_BRANCH = "main";
 </script>
 <script src="{{ '/assets/js/admin.js' | relative_url }}"></script>

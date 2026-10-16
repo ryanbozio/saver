@@ -1,0 +1,21 @@
+title: Saver
+tagline: A dummy Jekyll project
+description: >-
+  Placeholder Jekyll site for the Saver project. Replace this copy with
+  real content whenever the project takes shape.
+author: Ryan Bozio
+baseurl: ""
+url: ""
+
+markdown: kramdown
+permalink: pretty
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
